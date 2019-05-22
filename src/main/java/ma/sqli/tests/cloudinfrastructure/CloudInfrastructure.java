@@ -81,7 +81,7 @@ public class CloudInfrastructure {
         if (machine.isPresent())
             return machine.get().usedDisk();
         else
-            return getStoreByName(name).get().memoryUsage();
+            return getStoreByName(name).get().diskUsage();
 
     }
 

@@ -40,12 +40,12 @@ public class Store {
         this.documents.clear();
     }
 
-    public double memoryUsage()
+    public double diskUsage()
     {
-        double memory = SIZE_START_POINT;
+        double disk = SIZE_START_POINT;
         for(Document document : documents)
-            memory+= document.getSize();
-        return memory;
+            disk+= document.getSize();
+        return disk;
     }
     public boolean checkIfExist(String name)
     {
