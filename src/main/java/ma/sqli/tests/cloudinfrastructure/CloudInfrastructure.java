@@ -34,8 +34,7 @@ public class CloudInfrastructure {
 
     public String listStores() {
         List<String> storesAsList = new ArrayList<>();
-        for (Store store : stores)
-            storesAsList.add(store.toString());
+        stores.forEach(s -> storesAsList.add(s.toString()));
         return String.join(LIST_SEPARATOR, storesAsList);
     }
 
@@ -53,8 +52,7 @@ public class CloudInfrastructure {
 
     public String listMachines() {
         List<String> machinesAsList = new ArrayList<>();
-        for (Machine machine : machines)
-            machinesAsList.add(machine.showState());
+        machines.forEach(m -> machinesAsList.add(m.showState()));
         return String.join(LIST_SEPARATOR, machinesAsList);
     }
 
@@ -86,19 +84,13 @@ public class CloudInfrastructure {
     }
 
     public double globalUsedDisk() {
-        double globalDisk = SIZE_START_POINT;
-        for (Machine machine : machines)
-            globalDisk += usedDisk(machine.getName());
-        for (Store store : stores)
-            globalDisk += usedDisk(store.getName());
-        return globalDisk;
+        double machineDiskUsage = machines.stream().mapToDouble(Machine::usedDisk).sum();
+        double storeDiskUsage =  stores.stream().mapToDouble(Store::diskUsage).sum();
+        return  machineDiskUsage + storeDiskUsage;
     }
 
     public double globalUsedMemory() {
-        double globalMemory = SIZE_START_POINT;
-        for (Machine machine : machines)
-            globalMemory += usedMemory(machine.getName());
-        return globalMemory;
+        return machines.stream().mapToDouble(Machine::usedMemory).sum();
     }
 
     private Optional<Machine> getMachineByName(String machineName) {
