@@ -1,7 +1,6 @@
 package ma.sqli.tests.cloudinfrastructure.model;
 
 import static ma.sqli.tests.cloudinfrastructure.constants.Constants.KEY_VALUE_SEPARATOR;
-import static ma.sqli.tests.cloudinfrastructure.constants.Constants.SIZE_START_POINT;
 import static ma.sqli.tests.cloudinfrastructure.constants.Constants.STORE_EMPTY_DOCUMENT;
 import static ma.sqli.tests.cloudinfrastructure.constants.Constants.STORE_SEPARATOR;
 
@@ -25,15 +24,10 @@ public class Store {
         this.name = name;
         this.documents = new ArrayList<>();
     }
-    public String getName()
-    {
-        return name;
-    }
     public void addDocuments(String... documents)
     {
-        for (String document : documents) {
+        for (String document : documents)
             this.documents.add(new Document(document));
-        }
     }
     public void clearDocuments()
     {
@@ -42,10 +36,7 @@ public class Store {
 
     public double diskUsage()
     {
-        double disk = SIZE_START_POINT;
-        for(Document document : documents)
-            disk+= document.getSize();
-        return disk;
+        return documents.stream().mapToDouble(Document::getSize).sum();
     }
     public boolean checkIfExist(String name)
     {
