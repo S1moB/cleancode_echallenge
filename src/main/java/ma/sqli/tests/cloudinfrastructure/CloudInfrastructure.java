@@ -76,11 +76,7 @@ public class CloudInfrastructure {
 
     public double usedDisk(String name) {
         Optional<Machine> machine = getMachineByName(name);
-        if (machine.isPresent())
-            return machine.get().usedDisk();
-        else
-            return getStoreByName(name).get().diskUsage();
-
+        return machine.map(Machine::usedDisk).orElseGet(() -> getStoreByName(name).get().diskUsage());
     }
 
     public double globalUsedDisk() {
